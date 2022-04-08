@@ -2,32 +2,40 @@ import react, { useState } from "react";
 
 export default function Home() {
   
-  const [hcgData, setHcgData] = useState('') 
-  const [lotNumber, setLotNumber] = useState('')
-  const [expirationDate, setExpirationDate] = useState('')
+  // const [hcgData, setHcgData] = useState('') 
+  // const [lotNumber, setLotNumber] = useState('')
+  // const [expirationDate, setExpirationDate] = useState('')
+  const [copyButtonPressed, setCopyButtonPressed] = useState(false);
 
-  let currentLotAndExp = hcgData
+  let currentLotAndExp = 'HCG1102052 09/30/23'
 
-  const lotNumberChangeHandler = (e) => {
-    setLotNumber(e.target.value)
-  }
+  // const dataObject = {
+  //   lot : "b" ,
+  //   exp : "c"
+  // }
 
-  const expirationDateChangeHandler = (e) => {
-    setExpirationDate(e.target.value)
-  }
+  // const lotNumberChangeHandler = (e) => {
+  //   setLotNumber(e.target.value)
+  // }
 
-  const submitHandler = (e) => {
+  // const expirationDateChangeHandler = (e) => {
+  //   setExpirationDate(e.target.value)
+  // }
 
-    const hcgData = {
-      lot : lotNumber,
-      exp: expirationDate
-    }
+  // const submitHandler = (e) => {
 
-    setHcgData(lotNumber + expirationDate)
+  //   console.log(lotNumber)
 
-    e.preventDefault();
-  }
+  //   dataObject.lot = lotNumber;
+  //   dataObject.exp = expirationDate;
 
+
+  //   e.preventDefault();
+  // }
+
+   const onCopyButtonClickHandler = () => {
+      console.log(test)
+   }
 
   return (
 
@@ -58,7 +66,7 @@ export default function Home() {
         {/* Record new lot button */}
 
 
-        <div className=" space-y-2">
+        {/* <div className=" space-y-2">
 
           <div className="border-2 border-red-500 flex justify-center ">
             <button>Record New Lot</button>
@@ -67,7 +75,7 @@ export default function Home() {
 
           <form onSubmit={submitHandler}>
             {/* Input fields for lot and expiration */}
-            <div>
+            {/* <div>
 
               <input onChange={lotNumberChangeHandler} className="border-2 border-black"></input>
               <input onChange={expirationDateChangeHandler} className="border-2 border-black"></input>
@@ -77,7 +85,7 @@ export default function Home() {
               <button className="border-2 border-red-300">Submit</button>
             </div>
           </form>
-        </div>
+        </div> */} 
 
       </div>
 
