@@ -1,13 +1,16 @@
 import react, { useState } from "react";
+import CopyButton from "../components/buttons/CopyButton";
 
 export default function Home() {
-  
+
   // const [hcgData, setHcgData] = useState('') 
   // const [lotNumber, setLotNumber] = useState('')
   // const [expirationDate, setExpirationDate] = useState('')
-  const [copyButtonPressed, setCopyButtonPressed] = useState(false);
+  
 
   let currentLotAndExp = 'HCG1102052 09/30/23'
+
+  
 
   // const dataObject = {
   //   lot : "b" ,
@@ -33,13 +36,11 @@ export default function Home() {
   //   e.preventDefault();
   // }
 
-   const onCopyButtonClickHandler = () => {
-      console.log(test)
-   }
+  
 
   return (
 
-    <div className='m-auto h-screen flex items-center justify-center'>
+    <div className='m-auto h-screen flex items-center justify-center bg-gray-100'>
 
 
       <div className=" flex flex-col space-y-2 ">
@@ -47,19 +48,19 @@ export default function Home() {
 
         {/* Current lot, expiration and a copy button */}
         <div className='flex justify-center space-x-1'>
-          <h1> {currentLotAndExp} </h1>
-          <div className=" flex flex-col justify-center items-center">
+          <div className="flex flex-col">
+            <label className="font-bold">Current lot & expiration </label>
 
-            <button onClick={() => { navigator.clipboard.writeText(currentLotAndExp) }}>
+            {/* Main continer */}
+            <div className="bg-gray-600 text-white px-2 py-3 rounded drop-shadow ">
+              <h1> {currentLotAndExp} </h1>
+              
+            <CopyButton currentLotAndExp = {currentLotAndExp}/>
+              
+            </div>
 
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-              </svg>
-
-
-            </button>
-            <span className="text-[7px]">Press to copy</span>
           </div>
+
         </div>
 
 
@@ -75,7 +76,7 @@ export default function Home() {
 
           <form onSubmit={submitHandler}>
             {/* Input fields for lot and expiration */}
-            {/* <div>
+        {/* <div>
 
               <input onChange={lotNumberChangeHandler} className="border-2 border-black"></input>
               <input onChange={expirationDateChangeHandler} className="border-2 border-black"></input>
@@ -85,7 +86,7 @@ export default function Home() {
               <button className="border-2 border-red-300">Submit</button>
             </div>
           </form>
-        </div> */} 
+        </div> */}
 
       </div>
 
