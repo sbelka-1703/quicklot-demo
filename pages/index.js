@@ -49,11 +49,11 @@ export default function Home() {
         {/* Current lot, expiration and a copy button */}
         <div className='flex justify-center space-x-1'>
           <div className="flex flex-col">
-            <label className="font-bold">Current lot & expiration </label>
+            <label className="font-bold text-lg ">Current lot & expiration </label>
 
             {/* Main continer */}
             <div className="bg-gray-600 text-white px-2 py-3 rounded drop-shadow ">
-              <h1> {currentLotAndExp} </h1>
+              <h1 className="text-lg" > {currentLotAndExp} </h1>
               
             <CopyButton currentLotAndExp = {currentLotAndExp}/>
               
