@@ -40,7 +40,7 @@ export default function Home() {
 
   return (
 
-    <div className='m-auto h-screen flex items-center justify-center bg-gray-100'>
+    <div className='m-auto h-screen flex items-center justify-center bg-gray-100 '>
 
 
       <div className=" flex flex-col space-y-2 ">
@@ -52,8 +52,8 @@ export default function Home() {
             <label className="font-bold text-lg ">Current lot & expiration </label>
 
             {/* Main continer */}
-            <div className="bg-gray-600 text-white px-2 py-3 rounded drop-shadow ">
-              <h1 className="text-lg" > {currentLotAndExp} </h1>
+            <div className="bg-gray-600 text-white px-2 py-3 rounded drop-shadow text-center   ">
+              <h1 className="text-lg font-mono" > {currentLotAndExp} </h1>
               
             <CopyButton currentLotAndExp = {currentLotAndExp}/>
               
