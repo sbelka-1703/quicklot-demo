@@ -1,4 +1,4 @@
-import react, { useState } from "react";
+import react, { useState, useEffect } from "react";
 import CopyButton from "../components/buttons/CopyButton";
 
 export default function Home() {
@@ -35,6 +35,10 @@ export default function Home() {
 
   //   e.preventDefault();
   // }
+
+  useEffect(() => {
+    document.title = "Hcg Lot App"
+  }, [])
 
   
 
