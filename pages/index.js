@@ -1,9 +1,16 @@
-import react, { useState } from "react";
+
+import { async } from "@firebase/util";
+import react, { useState, useEffect } from "react";
 import CopyButton from "../components/buttons/CopyButton";
+import { db } from "../firebase/initFirebase";
+import {collection, getDocs} from "firebase/firestore"
+
+
 
 export default function Home() {
 
-  const [hcgData, setHcgData] = useState('') 
+
+  const [hcgData, setHcgData] = useState([]);
   const [lotNumber, setLotNumber] = useState('')
   const [expirationDate, setExpirationDate] = useState('')
   
@@ -12,10 +19,7 @@ export default function Home() {
 
   
 
-  const dataObject = {
-    lot : "b" ,
-    exp : "c"
-  }
+  
 
   const lotNumberChangeHandler = (e) => {
     setLotNumber(e.target.value)
@@ -35,6 +39,20 @@ export default function Home() {
 
     e.preventDefault();
   }
+  
+  const lotCollectionRef = collection(db, "Lots")
+
+
+  useEffect(() => {
+
+    const getLot = async () =>{
+
+      const data = await getDocs(lotCollectionRef);
+      console.log(data)
+
+    }
+    getLot();
+  }, [])
 
   
 
