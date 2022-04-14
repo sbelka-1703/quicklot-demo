@@ -9,39 +9,35 @@ import { collection, doc, getDocs, addDoc } from "firebase/firestore"
 
 export default function Home() {
 
-
+  
   const [hcgData, setHcgData] = useState([]);
-  const [lotNumber, setLotNumber] = useState('')
-  const [expirationDate, setExpirationDate] = useState('')
+  const [newHcgData, setNewHcgData] = useState("");
+  const [lotNumber, setLotNumber] = useState('');
+  const [expirationDate, setExpirationDate] = useState('');
 
 
-  let currentLotAndExp = 'HCG1102052 09/30/23'
+  let currentLotAndExp
+
+  (function () {
+    hcgData.map((hcgLot) => {
+     currentLotAndExp = hcgLot.lotAndExp;
+    })
+  }())
 
 
 
-
-
-  const lotNumberChangeHandler = (e) => {
-    setLotNumber(e.target.value)
+  const newHcgLotSubmitHandler = (e) => {
+    setNewHcgData(e.target.value)
   }
 
-  const expirationDateChangeHandler = (e) => {
-    setExpirationDate(e.target.value)
-  }
+  
 
-  const submitHandler = (e) => {
-
-    console.log(lotNumber)
-
-    dataObject.lot = lotNumber;
-    dataObject.exp = expirationDate;
-
-
-    e.preventDefault();
-  }
-
+  
   const lotCollectionRef = collection(db, "Lots")
-
+  
+  const addNewLot = async () => {
+    await addDoc(lotCollectionRef, {lotAndExp: newHcgData});
+  }
 
 
 
@@ -51,20 +47,15 @@ export default function Home() {
 
       const data = await getDocs(lotCollectionRef);
       setHcgData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-      console.log(data.docs)
 
-
-      // const querySnapshot = await getDocs(collection(db, "users"));
-      // querySnapshot.forEach((doc) => {
-      //   console.log(`${doc.id} => ${doc.data()}`);
-      //   console.log('hi')
-      // });
+      
+   
     }
 
     getLot();
   }, [])
 
-
+  
 
   return (
 
@@ -102,22 +93,18 @@ export default function Home() {
           </div>
 
 
-          <form onSubmit={submitHandler}>
+         
             {/* Input fields for lot and expiration */}
             <div>
 
-              <input onChange={lotNumberChangeHandler} className="border-2 border-black"></input>
-              <input onChange={expirationDateChangeHandler} className="border-2 border-black"></input>
-              {hcgData.map((hcgLot) => {
-                return <div><h1>{hcgLot.lotAndExp}</h1></div>;
-
-              })}
+              <input onChange={newHcgLotSubmitHandler} className="border-2 border-black"></input>
+             
             </div>
             <div className="flex justify-center">
 
-              <button className="border-2 border-red-300">Submit</button>
+              <button onClick={addNewLot} className="border-2 border-red-300">Submit</button>
             </div>
-          </form>
+        
         </div>
 
       </div>
