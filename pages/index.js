@@ -1,25 +1,26 @@
 
 import { async } from "@firebase/util";
-import react, { useState, useEffect } from "react";
+import react, { useState, useEffect, useRef } from "react";
 import CopyButton from "../components/buttons/CopyButton";
 import { db } from "../firebase/initFirebase";
 import { collection, doc, getDocs, addDoc, updateDoc } from "firebase/firestore"
 
 
 
-export default function Home() {
+
+export default function Home(props) {
 
   //hcgData is being retrived from the database
   //newHcgData is being sent to the database (overwrites the previous data)
   const [hcgData, setHcgData] = useState([]);
   const [newHcgData, setNewHcgData] = useState("");
+  const [openInput, setOpenInput] = useState(false)
 
 
   let currentLotAndExp
+  const ref = useRef(null);
+  const { onClickOutside } = props;
 
-
-
- 
   /* 
      Every time the page renders this functions runs, retrives the current lot
      from the database and sets the currentLotAndExp variable to it
@@ -37,13 +38,26 @@ export default function Home() {
     setNewHcgData(e.target.value)
   }
 
+  const handleClick = (e) => {
+    switch (e.detail) {
+      case 1:
+        break;
+      case 2:
+        setOpenInput(true)
+        console.log("double click");
+        break;
+      default:
+        return;
+    }
+  };
+
 
 
   //A refrence to the collection, where the lot it stored in the database
   const lotCollectionRef = collection(db, "Lots")
 
   //A refence to the doc in the collection 
-  const docRef = doc(db, "Lots", "P1w0rnBI2WullBO3KQ3P"); 
+  const docRef = doc(db, "Lots", "P1w0rnBI2WullBO3KQ3P");
 
 
   //Updates the document in the collection and sets it to the newHcgData that we got from the input 
@@ -51,24 +65,56 @@ export default function Home() {
     await updateDoc(docRef, {
       lotAndExp: newHcgData
     });
+
+    window.location.reload(false);
     console.log(newHcgData)
   }
 
 
+  const InputComponent = () => {
+    return (
+      <div className="space-y-2">
+        <div ref={ref}>
+
+          <input className="border-2 border-black text-black rounded" onChange={newHcgLotSubmitHandler} ></input>
+
+        </div>
+        <div className="flex justify-center">
+
+          <button onClick={updateLot} className=" bg-teal-500 hover:bg-teal-400 text-xs py-1 px-2 mb-1 rounded-2xl"> Record New Lot</button>
+
+        </div>
+      </div>
+    )
+  }
+
+
+
 
   useEffect(() => {
-    //
+    //Retireves the data every time the page reloads 
     const getLot = async () => {
-      
+
       const data = await getDocs(lotCollectionRef);
       console.log(data.docs);
       setHcgData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
 
     }
-
     getLot();
   }, [])
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+
+        setOpenInput(false)
+      }
+    };
+    document.addEventListener('click', handleClickOutside, true);
+    return () => {
+      document.removeEventListener('click', handleClickOutside, true);
+    };
+  }, [onClickOutside]);
 
 
   return (
@@ -90,7 +136,16 @@ export default function Home() {
 
 
             <div className="bg-gray-600 text-white px-2 py-3 rounded drop-shadow text-center   ">
-              <h1 className="text-lg font-mono" > {currentLotAndExp} </h1>
+
+              {
+                openInput ? (
+                  <InputComponent />
+                ) : (
+                  <button onClick={handleClick} className="text-lg font-mono cursor-default " > {currentLotAndExp} </button>
+                )
+
+
+              }
 
               <CopyButton currentLotAndExp={currentLotAndExp} />
 
@@ -101,33 +156,6 @@ export default function Home() {
         </div>
 
 
-        {/* Record new lot button */}
-
-
-        <div className=" space-y-2">
-
-          <div className="border-2 border-red-500 flex justify-center ">
-            <button>Record New Lot</button>
-          </div>
-
-
-
-          {/* Input fields for lot and expiration */}
-
-
-
-          <div>
-
-            <input onChange={newHcgLotSubmitHandler} className="border-2 border-black"></input>
-
-          </div>
-          <div className="flex justify-center">
-
-            <button onClick={updateLot} className="border-2 border-red-300">Submit</button>
-          </div>
-
-
-        </div>
 
       </div>
 
