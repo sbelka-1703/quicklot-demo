@@ -121,12 +121,24 @@ export default function Home(props) {
               {
                 openInput ? (
                   <>
-                  <div ref={ref}>
 
-                    <input className="border-2 border-black text-black mb-2" onChange={newHcgLotSubmitHandler} ></input>
-                    
-                  </div>
-                  <button>click me</button>
+
+                    <div className="space-y-2" ref={ref}>
+
+                      <div>
+
+                        <input className="border-2 border-black text-black rounded" onChange={newHcgLotSubmitHandler} ></input>
+                      </div>
+
+
+                      <div className="flex justify-center">
+
+                        <button onClick={updateLot} className=" bg-teal-500 hover:bg-teal-400 text-xs py-1 px-2 mb-1 rounded-2xl"> Record New Lot</button>
+
+                      </div>
+
+                    </div>
+
                   </>
                 ) : (
                   <button onClick={handleClick} className="text-lg font-mono cursor-default" > {currentLotAndExp} </button>
@@ -144,30 +156,7 @@ export default function Home(props) {
         </div>
 
 
-        {/* Record new lot button */}
 
-
-        <div className=" space-y-2">
-
-
-
-
-          {/* Input fields for lot and expiration */}
-
-
-
-          <div>
-
-
-
-          </div>
-          <div className="flex justify-center">
-
-            <button onClick={updateLot} className="border-2 border-red-300">Submit</button>
-          </div>
-
-
-        </div>
 
       </div>
 
