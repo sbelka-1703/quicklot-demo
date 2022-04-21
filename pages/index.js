@@ -5,9 +5,6 @@ import CopyButton from "../components/buttons/CopyButton";
 import { db } from "../firebase/initFirebase";
 import { collection, doc, getDocs, addDoc, updateDoc } from "firebase/firestore"
 
-
-
-
 export default function Home(props) {
 
   //hcgData is being retrived from the database
@@ -15,7 +12,6 @@ export default function Home(props) {
   const [hcgData, setHcgData] = useState([]);
   const [newHcgData, setNewHcgData] = useState("");
   const [openInput, setOpenInput] = useState(false)
-
 
   let currentLotAndExp
   const ref = useRef(null);
@@ -31,7 +27,6 @@ export default function Home(props) {
       currentLotAndExp = hcgLot.lotAndExp;
     })
   }())
-
 
   //takes the data from the input fields and sets newHcgData(this data gets sent to the database and overwrites it)
   const newHcgLotSubmitHandler = (e) => {
@@ -51,26 +46,27 @@ export default function Home(props) {
     }
   };
 
-
-
   //A refrence to the collection, where the lot it stored in the database
   const lotCollectionRef = collection(db, "Lots")
 
   //A refence to the doc in the collection 
   const docRef = doc(db, "Lots", "P1w0rnBI2WullBO3KQ3P");
 
-
   //Updates the document in the collection and sets it to the newHcgData that we got from the input 
   const updateLot = async () => {
-    await updateDoc(docRef, {
-      lotAndExp: newHcgData
-    });
+    if(newHcgData !== ""){
 
-    window.location.reload(false);
-    console.log(newHcgData)
+      await updateDoc(docRef, {
+        lotAndExp: newHcgData
+      });
+  
+      window.location.reload(false);
+    }
+
+    else{
+      return
+    }
   }
-
-
 
   useEffect(() => {
     //Retireves the data every time the page reloads 
@@ -97,70 +93,36 @@ export default function Home(props) {
     };
   }, [onClickOutside]);
 
-
   return (
-
     <div className='m-auto h-screen flex items-center justify-center bg-gray-100 '>
-
-
       <div className=" flex flex-col space-y-2 ">
-
-
         {/* Current lot, expiration and a copy button */}
         <div className='flex justify-center space-x-1'>
-
-
           <div className="flex flex-col">
             <label className="font-bold text-lg ">Current lot & expiration </label>
-
             {/* Main continer */}
-
-
             <div className="bg-gray-600 text-white px-2 py-3 rounded drop-shadow text-center   ">
-
               {
                 openInput ? (
                   <>
-
-
                     <div className="space-y-2" ref={ref}>
-
                       <div>
-
-                        <input className="border-2 border-black text-black rounded" onChange={newHcgLotSubmitHandler} ></input>
+                        <input className="border-2 border-blue-400 text-black rounded" onChange={newHcgLotSubmitHandler} ></input>
                       </div>
-
-
                       <div className="flex justify-center">
-
                         <button onClick={updateLot} className=" bg-teal-500 hover:bg-teal-400 text-xs py-1 px-2 mb-1 rounded-2xl"> Record New Lot</button>
-
                       </div>
-
                     </div>
-
                   </>
                 ) : (
                   <button onClick={handleClick} className="text-lg font-mono cursor-default" > {currentLotAndExp} </button>
                 )
-
-
               }
-
               <CopyButton currentLotAndExp={currentLotAndExp} />
-
             </div>
-
           </div>
-
         </div>
-
-
-
-
       </div>
-
-
     </div >
 
   )
