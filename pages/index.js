@@ -1,5 +1,4 @@
 
-import { async } from "@firebase/util";
 import react, { useState, useEffect, useRef } from "react";
 import CopyButton from "../components/buttons/CopyButton";
 import { db } from "../firebase/initFirebase";
@@ -15,6 +14,7 @@ export default function Home(props) {
 
   let currentLotAndExp
   const ref = useRef(null);
+  const inputRef = useRef();
   const { onClickOutside } = props;
 
   /* 
@@ -33,13 +33,13 @@ export default function Home(props) {
     setNewHcgData(e.target.value)
   }
 
-  const handleClick = (e) => {
+  const handleDoubleClick = (e) => {
     switch (e.detail) {
       case 1:
         break;
       case 2:
         setOpenInput(true)
-        console.log("double click");
+        console.log(inputRef.current); 
         break;
       default:
         return;
@@ -93,6 +93,15 @@ export default function Home(props) {
     };
   }, [onClickOutside]);
 
+  //Puts the cursor on the input field when double click occurs  
+  useEffect(() => {
+    if (openInput === true) {
+   inputRef.current.focus();
+    }
+     
+  }, [openInput])
+  
+
   return (
     <div className='m-auto h-screen flex items-center justify-center bg-gray-100 '>
       <div className=" flex flex-col space-y-2 ">
@@ -107,7 +116,8 @@ export default function Home(props) {
                   <>
                     <div className="space-y-2" ref={ref}>
                       <div>
-                        <input className="border-2 border-blue-400 text-black rounded" onChange={newHcgLotSubmitHandler} ></input>
+                        {/* Input field that renders conditinaly based on a double click */}
+                        <input placeholder="Enter New Lot Here" ref={inputRef} className=" appearance-none focus:outline-none border border-white text-black rounded" onChange={newHcgLotSubmitHandler} ></input>
                       </div>
                       <div className="flex justify-center">
                         <button onClick={updateLot} className=" bg-teal-500 hover:bg-teal-400 text-xs py-1 px-2 mb-1 rounded-2xl"> Record New Lot</button>
@@ -115,7 +125,7 @@ export default function Home(props) {
                     </div>
                   </>
                 ) : (
-                  <button onClick={handleClick} className="text-lg font-mono cursor-default" > {currentLotAndExp} </button>
+                  <button onClick={handleDoubleClick} className="text-lg font-mono cursor-default" > {currentLotAndExp} </button>
                 )
               }
               <CopyButton currentLotAndExp={currentLotAndExp} />
