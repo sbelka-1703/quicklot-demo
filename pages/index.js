@@ -77,7 +77,7 @@ export default function Home(props) {
       const data = await getDocs(lotCollectionRef);
       console.log(data.docs);
       setHcgData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-
+      document.title = "HCG Lot App"
     }
     getLot();
   }, [])
