@@ -109,8 +109,8 @@ export default function Home(props) {
       <div className=" flex flex-col space-y-2 ">
         {/* Current lot, expiration and a copy button */}
         <div className='flex justify-center space-x-1'>
-          <div className="flex flex-col">
-            <label className="font-bold text-lg ">Current lot & expiration </label>
+          <div className="flex flex-col text-center">
+            <label className="font-bold text-lg  ">Current lot & expiration </label>
             {/* Main continer */}
             <div className="bg-gray-600 text-white px-2 py-3 rounded drop-shadow text-center   ">
               {
