@@ -55,7 +55,7 @@ export default function Home(props) {
   const lotCollectionRef = collection(db, "Lots");
 
   //A reference to the doc in the collection
-  const docRef = doc(db, "Lots", "P1w0rnBI2WullBO3KQ3P");
+  const docRef = doc(db, "Lots", "bmG92WzV0wvJ8REQBtCQ");
 
   //Updates the document in the collection and sets it to the newHcgData that we got from the input
   const updateLot = async () => {
